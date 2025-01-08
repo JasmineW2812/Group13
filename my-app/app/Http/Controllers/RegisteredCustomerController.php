@@ -14,8 +14,8 @@ class RegisteredCustomerController extends Controller
     $validated = $request->validate([
         'first_name' => 'required|string|max:255',
         'last_name'  => 'required|string|max:255',
-        'phone_number'=> 'required|integer|max:11',
         'email'      => 'required|email|unique:staff,email',
+        'phone_number'=> 'required|integer|max:11',
         'password'   => 'required|string|min:6|confirmed',
         ]);
     

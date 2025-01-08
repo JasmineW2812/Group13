@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
 
         '/admin-create-staff',
+        '/sign-up',
 
     ];
 

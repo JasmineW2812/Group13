@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $products = Product::all();
+        $totalOrders = Order::count();
+        $productsInventory = Product::sum('stock_quantity');
+        return view('admin-inventory-data', compact('products', 'totalOrders', 'productsInventory'));
+    }
+
     public function searchProduct(Request $request)
     {
         $products = Product::query();
@@ -31,62 +40,101 @@ class ProductController extends Controller
         }
 
         $products = $products->get();
-    
-        return view('admin-inventory-data', compact('products'));
+
+        $totalOrders = Order::count();
+        $productsInventory = Product::sum('stock_quantity');
+
+        return view('admin-inventory-data', compact('products', 'totalOrders', 'productsInventory'));
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+        return view('products.create');
     }
 
-    public function viewProduct()
-    {
-        $products = Product::all();
-
-        return view('/admin-inventory-data', compact('products'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'product_type' => 'required|string|max:255',
+            'platform' => 'nullable|string|max:255',
+            'price' => 'required|numeric',
+            'stock_quantity' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        Log::info('Incoming store data:', $request->all());
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('product_images', 'public');
+        }
+
+        $product = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'product_type' => $request->product_type,
+            'platform' => $request->platform,
+            'price' => $request->price,
+            'stock_quantity' => $request->stock_quantity,
+            'image_path' => $imagePath,
+        ]);
+
+        Log::info('Created product:', $product->toArray());
+
+        return redirect()->route('inventory.manager.data')->with('success', 'Product added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'product_type' => 'required|string|max:255',
+            'platform' => 'nullable|string|max:255',
+            'price' => 'required|numeric',
+            'stock_quantity' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        Log::info('Incoming update data:', $request->all());
+
+        $imagePath = $product->image_path;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('product_images', 'public');
+        }
+
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'product_type' => $request->product_type,
+            'platform' => $request->platform,
+            'price' => $request->price,
+            'stock_quantity' => $request->stock_quantity,
+            'image_path' => $imagePath,
+        ]);
+
+        Log::info('Updated product data:', $product->toArray());
+
+        return redirect()->route('inventory.manager.data')->with('success', 'Product updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+    public function edit(Product $product)
+    {
+        Log::info('Product description:', ['description' => $product->description]);
+        return view('products.edit', compact('product'));
+    }
+
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
+    }
+
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('inventory.manager.data')->with('success', 'Product deleted successfully.');
     }
 }

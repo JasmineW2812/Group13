@@ -10,7 +10,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
+Route::get('/', function () {
+    return view('login');
+});
+=======
 Route::get('/', [HomeController::class, 'home'])->name('home');
+>>>>>>> 5d8778a438570046e8151ef435e22ff2ea22cf14
 
 Route::get('/admin-create-staff', function () {
     return view('admin-create-staff');

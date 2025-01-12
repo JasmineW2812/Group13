@@ -10,13 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-<<<<<<< HEAD
-Route::get('/', function () {
-    return view('login');
-});
-=======
 Route::get('/', [HomeController::class, 'home'])->name('home');
->>>>>>> 5d8778a438570046e8151ef435e22ff2ea22cf14
 
 Route::get('/admin-create-staff', function () {
     return view('admin-create-staff');
@@ -42,9 +36,9 @@ Route::get('/notification', function () {
     return view('notification');
 })->name('notification');
 
-Route::get('/sign-up', function () {
-    return view('sign-up');
-})->name('sign-up');
+// Route::get('/sign-up', function () {
+//     return view('sign-up');
+// })->name('sign-up');
 
 Route::get('/login', function () {
     return view('login'); // login view
@@ -86,7 +80,16 @@ Route::get('/inventory-manager-dashboard', [InventoryManagerController::class, '
 Route::get('/inventory-manager-searchProduct', [InventoryManagerController::class, 'searchProduct'])->name('inventory.manager.searchProduct');
 
 // Registered user Sign-Up
-Route::post('/user/sign-up', [RegisteredCustomerController::class, 'userSignUp'])->name('user.signUp');
+
+Route::get('/customer-sign-up', function () {
+    return view('customer-sign-up');
+})->name('customer-sign-up');
+
+Route::post('/customer-sign-up', [RegisteredCustomerController::class, 'customerSignUp'])->name('customerSignUp');
+
+// Route::post('/user/sign-up', [RegisteredCustomerController::class, 'userSignUp'])->name('user.signUp');--old page
+
+
 
 // Orders
 Route::get('orders/pending', [OrderController::class, 'pending'])->name('orders.pending');

@@ -45,11 +45,11 @@
                             <input type="email" class="form-control" name="email" placeholder="Email">
                         </div>
                     </div>
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col mt-4">
                             <input type="tel" class="form-control" name="phone_number" placeholder="Phone number">
                         </div>
-                    </div> -->
+                    </div>
                     <div class="row">
                         <div class="col mt-4">
                             <input type="password" class="form-control" name="password" placeholder="Password" required>

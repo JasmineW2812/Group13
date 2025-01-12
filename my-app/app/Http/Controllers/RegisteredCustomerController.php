@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class RegisteredCustomerController extends Controller
 {
-    public function userSignUp(Request $request){
+    public function customerSignUp(Request $request){
 
     $validated = $request->validate([
         'first_name' => 'required|string|max:255',
         'last_name'  => 'required|string|max:255',
-        'email'      => 'required|email|unique:staff,email',
-        'phone_number'=> 'required|integer|max:11',
+        'email'      => 'required|email|unique:registered_customers,email',
+        'phone_number'=> 'required|integer',
         'password'   => 'required|string|min:6|confirmed',
         ]);
     
@@ -23,16 +23,16 @@ class RegisteredCustomerController extends Controller
     
     try {
         $newUser = RegisteredCustomer::create([
-            'first_name' => $validated['firstName'],
-            'last_name'  => $validated['lastName'],
+            'first_name' => $validated['first_name'],
+            'last_name'  => $validated['last_name'],
             'email'      => $validated['email'],
-            'phone_number'      => $validated['number'],
+            'phone_number'      => $validated['phone_number'],
             'password'   => Hash::make($validated['password']),
         ]);
 
         DB::commit();
 
-        return redirect()->route('user.signUp')->with('success', 'Your account has been created successfully!');
+        return redirect()->route('customerSignUp')->with('success', 'Your account has been created successfully!');
     } 
     catch (\Exception $e) {
         DB::rollback();

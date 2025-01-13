@@ -10,12 +10,6 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-<<<<<<< HEAD
-Route::get('/', function () {
-    return view('registered-user-homepage');
-});
-=======
->>>>>>> 4b8d03b06135a50989f5c0af2411f76d8be9b115
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
 

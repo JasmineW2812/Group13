@@ -42,59 +42,24 @@ class RegisteredCustomerController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function customerLogin(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = RegisteredCustomer::where('email', $validated['email'])->first();
+
+        if ($user && Hash::check($validated['password'], $user->password)) {
+            Session::put('user_id', $user->id);
+            Session::put('user_name', $user->first_name . ' ' . $user->last_name);
+            
+            return redirect()->route('customer-dashboard');
+        } else {
+
+            return back()->withErrors(['error' => 'Invalid login credentials.']);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(RegisteredCustomer $registeredCustomer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RegisteredCustomer $registeredCustomer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RegisteredCustomer $registeredCustomer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RegisteredCustomer $registeredCustomer)
-    {
-        //
-    }
 }

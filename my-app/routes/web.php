@@ -41,7 +41,7 @@ Route::get('/notification', function () {
     return view('notification');
 })->name('notification');
 
-//sign-up
+//Registered customer sign-up
 
 Route::get('/customer-sign-up', function () {
     return view('customer-sign-up');
@@ -57,16 +57,23 @@ Route::get('/customer-manage-profile', function () {
 
 Route::post('/customer-manage-profile', [RegisteredCustomerController::class, 'customerSignUp'])->name('customerManageProfile');
 
-//Login
-Route::get('/login', function () {
-    return view('login'); // login view
-})->name('login');
+//Login Page
+
+// Route::get('/login', function () {
+//     return view('login'); // login view-------old page
+// })->name('login');
+
+Route::get('/customer-login', function () {
+    return view('customer-login');
+})->name('customer-login');
+
+Route::post('/customer-login', [RegisteredCustomerController::class, 'customerLogin'])->name('customerLogin');
+
+Route::post('/customer-logout', [RegisteredCustomerController::class, 'customerLogout'])->name('customerLogout');
+
+
 
 Route::get('/inventory-manager-dashboard', [InventoryManagerController::class, 'dashboard'])->name('inventory-manager-dashboard');
-
-// Login Routes
-Route::post('/login', [LoginController::class, 'login'])->name('user.login');
-Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
 
 Route::post('/staff/save', [StaffController::class, 'saveStaff'])->name('saveStaff');
 

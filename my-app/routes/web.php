@@ -11,7 +11,14 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
+// Route for Registered User Home Page
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+// Route for Product Detail Page
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.detail');
+
+// Route for Inventory List Page
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.list');
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 

@@ -36,17 +36,26 @@ Route::get('/notification', function () {
     return view('notification');
 })->name('notification');
 
-// Route::get('/sign-up', function () {
-//     return view('sign-up');
-// })->name('sign-up');
+//sign-up
 
+Route::get('/customer-sign-up', function () {
+    return view('customer-sign-up');
+})->name('customer-sign-up');
+
+Route::post('/customer-sign-up', [RegisteredCustomerController::class, 'customerSignUp'])->name('customerSignUp');
+
+// Route::post('/user/sign-up', [RegisteredCustomerController::class, 'userSignUp'])->name('user.signUp');--old page
+//Manage profile page
+Route::get('/customer-manage-profile', function () {
+    return view('customer-manage-profile');
+})->name('customer-manage-profile');
+
+Route::post('/customer-manage-profile', [RegisteredCustomerController::class, 'customerSignUp'])->name('customerManageProfile');
+
+//Login
 Route::get('/login', function () {
     return view('login'); // login view
 })->name('login');
-
-Route::get('/shopping-cart', function () {
-    return view('shopping-cart');
-})->name('shopping-cart');
 
 Route::get('/inventory-manager-dashboard', [InventoryManagerController::class, 'dashboard'])->name('inventory-manager-dashboard');
 
@@ -79,15 +88,6 @@ Route::get('/inventory-manager-dashboard', [InventoryManagerController::class, '
 // Search route for Inventory Manager
 Route::get('/inventory-manager-searchProduct', [InventoryManagerController::class, 'searchProduct'])->name('inventory.manager.searchProduct');
 
-// Registered user Sign-Up
-
-Route::get('/customer-sign-up', function () {
-    return view('customer-sign-up');
-})->name('customer-sign-up');
-
-Route::post('/customer-sign-up', [RegisteredCustomerController::class, 'customerSignUp'])->name('customerSignUp');
-
-// Route::post('/user/sign-up', [RegisteredCustomerController::class, 'userSignUp'])->name('user.signUp');--old page
 
 
 

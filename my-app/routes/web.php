@@ -11,21 +11,11 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.detail');
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
-
-Route::get('/registered-user-homepage', function () {
-    return view('registered-user-homepage');
-})->name('registered.userHomepage');
-
-Route::get('/product-detail-page', function () {
-    return view('product-detail-page');
-})->name('product.detailPage');
-
-Route::get('/product-list-page', function () {
-    return view('product-list-page');
-})->name('product.listPage');
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.list');
 
 Route::get('/admin-create-staff', function () {
     return view('admin-create-staff');

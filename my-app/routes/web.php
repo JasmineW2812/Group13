@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 
-Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.detail');
-
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.list');
-
 Route::get('/admin-create-staff', function () {
     return view('admin-create-staff');
 })->name('admin.createStaff');

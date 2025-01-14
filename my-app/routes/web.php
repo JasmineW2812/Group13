@@ -10,12 +10,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
 
-
-// Route::get('/registered-user-homepage', function () {
-//     return view('registered-user-homepage');
-// })->name('registered-user-homepage');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 Route::get('/admin-create-staff', function () {
     return view('admin-create-staff');
